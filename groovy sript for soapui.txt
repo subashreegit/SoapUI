@@ -1,0 +1,36 @@
+
+import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
+import com.eviware.soapui.support.XmlHolder
+def Dividerequest=testRunner.testCase.testSteps["Divide"].getPropertyValue("Request")
+def DivideintAVar=testRunner.testCase.getPropertyValue("intA")
+def DivideintBVar=testRunner.testCase.getPropertyValue("intB")
+log.info DivideintAVar
+log.info DivideintBVar
+
+ def xmlDivide = new XmlHolder(Dividerequest)
+
+xmlDivide.setNodeValue("//tem:Divide/tem:intA",DivideintAVar)
+xmlDivide.setNodeValue("//tem:Divide/tem:intB",DivideintBVar)
+def newDivideXml=xmlDivide.getXml()
+testRunner.testCase.testSteps["Divide"].setPropertyValue("Request", newDivideXml)
+log.info xmlDivide.getXml()
+ 
+//call the service Divide
+def DivideTestStep=testRunner.testCase.testSteps["Divide"]
+def ContextDivide=new WsdlTestRunContext(DivideTestStep)
+DivideTestStep.run(testRunner,ContextDivide)
+
+
+
+//get result
+def Divideresponse=testRunner.testCase.testSteps["Divide"].getPropertyValue("Response")
+def getDivideRes=new XmlHolder(Divideresponse)
+getDivideRes.namespaces["ns"] = 'http://tempuri.org/'
+log.info getDivideRes.getNodeValue("//ns:DivideResponse/ns:DivideResult")
+def getDivideResult=getDivideRes.getNodeValue("//ns:DivideResponse/ns:DivideResult")
+log.info getDivideResult
+
+//validation
+assert getDivideResult=="22"
+
+

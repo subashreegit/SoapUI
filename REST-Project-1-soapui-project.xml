@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="52f8f07f-02a1-451a-b4cb-6faef4b72cb6" activeEnvironment="Default" name="REST Project 1" soapui-version="5.7.0" abortOnError="false" runType="SEQUENTIAL" resourceRoot="" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:RestService" id="3af47908-fefc-44aa-81d3-58333ac4facd" wadlVersion="http://wadl.dev.java.net/2009/02" name="https://restcountries.com" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart=""/><con:endpoints><con:endpoint>https://restcountries.com</con:endpoint></con:endpoints><con:resource name="Germany" path="/v3.1/name/germany" id="59b43482-87a1-493c-85eb-6de5260da4c6"><con:settings/><con:parameters/><con:method name="Germany 1" id="22fe613d-a22f-42c3-9839-4fdf2b1eb705" method="GET"><con:settings/><con:parameters/><con:representation type="RESPONSE"><con:mediaType>application/json</con:mediaType><con:status>200</con:status><con:params/><con:element>Response</con:element></con:representation><con:representation type="FAULT"><con:mediaType>application/json</con:mediaType><con:status>405</con:status><con:params/><con:element xmlns:ger="https://restcountries.com/v3.1/name/germany">ger:Fault</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/></con:representation><con:request name="Request 1" id="940ce8ed-e7d9-42a1-97cb-f7aad893c886" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>https://restcountries.com</con:endpoint><con:request/><con:originalUri>https://restcountries.com/v3.1/name/germany</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/><con:parameterOrder><con:entry/></con:parameterOrder></con:request></con:method></con:resource></con:interface><con:testSuite id="ff545730-51ce-422e-80ad-8f2756d1c351" name="https://restcountries.com TestSuite"><con:description>TestSuite generated for REST Service [https://restcountries.com]</con:description><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="29156885-2433-49ed-9f64-b686532f61e3" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Germany TestCase" searchProperties="true"><con:description>TestCase generated for REST Resource [Germany] located at [/v3.1/name/germany]</con:description><con:settings/><con:testStep type="restrequest" name="Request 1" id="8322a18b-9fae-4af9-ba87-356c8ee337f1"><con:settings/><con:config service="https://restcountries.com" resourcePath="/v3.1/name/germany" methodName="Germany 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="Request 1" id="940ce8ed-e7d9-42a1-97cb-f7aad893c886" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>https://restcountries.com</con:endpoint><con:request/><con:originalUri>https://restcountries.com/v3.1/name/germany</con:originalUri><con:assertion type="GroovyScriptAssertion" id="8fa6f47e-01d6-485c-a5e8-5edc4276b723" name="Script Assertion 2"><con:configuration><scriptText>
+
+import groovy.json.JsonSlurper
+def response= messageExchange.response.responseContent
+  def jsonsl= new JsonSlurper().parseText(response)
+  def expected=context.getTestCase().getPropertyValue("official")
+//assert  expected==jsonsl.translations.fin.official
+  log.info jsonsl.translations.fin.official
+    log.info jsonsl.status
+  //assert "['officially-assigned']" == jsonsl.status</scriptText></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="974770cb-52ab-4ca5-8064-5cfaa2a004a7" name="Script Assertion"><con:configuration><scriptText>// 2 ways of scripting - SoapUI
+//Groovy Teststep - (XML responses automatiom-
+//Scripting Assertions-  JSon and xml
+//XML -xmlholder
+//Json - JsonSlurper
+//Grabbing the response-
+
+//validation of "Saksan liittotasavalta" under translations
+import com.eviware.soapui.SoapUI
+import groovy.json.JsonSlurper
+def response= messageExchange.response.responseContent
+  def jsonsl= new JsonSlurper().parseText(response)
+ // def expected=context.getTestCase().getPropertyValue("placeid")
+//assert  expected==jsonsl.translations.fin.official
+log.info jsonsl.translations.fin.official
+log.info jsonsl.name.common
+log.info jsonsl.status
+ //assert "OK" == jsonsl.status</scriptText></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="8a97b16b-15e7-43c7-bf9c-10bbc13a1fb9" name="Script Assertion 1"><con:configuration><scriptText>//check response time
+assert messageExchange.timeTaken &lt;4000</scriptText></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="d6348a3f-9eee-4b0b-aa86-487fafc0d9f7" name="Script Assertion IF condition"><con:configuration><scriptText>import groovy.json.JsonSlurper
+boolean flag;
+//grab response from API
+def response= messageExchange.response.responseContent
+  def jsonsl= new JsonSlurper().parseText(response)
+for (int i=0; i&lt;23; i++)
+{
+	if(jsonsl.name.official[i]=="Federal Republic of Germany")
+	{
+		flag=true;
+		}
+	}
+
+	assert flag==true</scriptText></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="d6aef75e-a5c5-4614-9b6a-0013f567d4e9" name="Script Assertion if condition 2"><con:configuration><scriptText>import groovy.json.JsonSlurper
+boolean flag;
+//grab response from API
+def response= messageExchange.response.responseContent
+  def jsonsl= new JsonSlurper().parseText(response)
+for (int i=0; i&lt;23; i++)
+{
+	if(jsonsl.translations.est.common[i]=="Saksamaa")
+	{
+		flag=true;
+		}
+	}
+
+	assert flag==true</scriptText></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/><con:parameterOrder><con:entry/></con:parameterOrder></con:restRequest></con:config></con:testStep><con:testStep type="restrequest" name="REST Request" id="a8b98e07-160b-4b27-a0da-3df55763a76d"><con:settings/><con:config service="https://restcountries.com" resourcePath="/v3.1/name/germany" methodName="Germany 1" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="REST Request" id="940ce8ed-e7d9-42a1-97cb-f7aad893c886" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>https://restcountries.com</con:endpoint><con:request/><con:originalUri>https://restcountries.com/v3.1/name/germany</con:originalUri><con:assertion type="GroovyScriptAssertion" id="6b1b1461-c870-4dc0-9e49-e06bd360be77" name="Script Assertion"><con:configuration/></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/><con:parameterOrder><con:entry/></con:parameterOrder></con:restRequest></con:config></con:testStep><con:properties><con:property><con:name>official</con:name><con:value>Saksan liittotasavalta</con:value></con:property></con:properties></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>

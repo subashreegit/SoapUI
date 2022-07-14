@@ -1,0 +1,31 @@
+def Multiplyrequest=testRunner.testCase.testSteps["Multiply"].getPropertyValue("Request")
+def MultiplyintAVar=testRunner.testCase.getPropertyValue("intA")
+def MultiplyintBVar=testRunner.testCase.getPropertyValue("intB")
+log.info MultiplyintAVar
+log.info MultiplyintBVar
+
+ def xmlMultiply = new XmlHolder(Multiplyrequest)
+
+xmlMultiply.setNodeValue("//tem:Multiply/tem:intA",MultiplyintAVar)
+xmlMultiply.setNodeValue("//tem:Multiply/tem:intB",MultiplyintBVar)
+def newMultiplyXml=xmlMultiply.getXml()
+testRunner.testCase.testSteps["Multiply"].setPropertyValue("Request", newMultiplyXml)
+log.info xmlMultiply.getXml()
+ 
+//call the service Multiply
+def MultiplyTestStep=testRunner.testCase.testSteps["Multiply"]
+def ContextMultiply=new WsdlTestRunContext(MultiplyTestStep)
+MultiplyTestStep.run(testRunner,ContextMultiply)
+
+
+
+//get result
+def Multiplyresponse=testRunner.testCase.testSteps["Multiply"].getPropertyValue("Response")
+def getMultiplyRes=new XmlHolder(Multiplyresponse)
+getMultiplyRes.namespaces["ns"] = 'http://tempuri.org/'
+log.info getMultiplyRes.getNodeValue("//ns:MultiplyResponse/ns:MultiplyResult")
+def getMultiplyResult=getMultiplyRes.getNodeValue("//ns:MultiplyResponse/ns:MultiplyResult")
+log.info getMultiplyResult
+
+//validation
+assert getMultiplyResult=="90"

@@ -1,0 +1,7 @@
+go to the project location for eg     cd C:\Users\172739724\eclipse-workspace\SOAPUI
+
+javac -classpath lib/* -d ./bin ./src/Rest/*.java
+
+ 
+
+java -cp bin;lib/* org.testng.TestNG testng.xml
